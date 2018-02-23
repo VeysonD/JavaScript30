@@ -59,9 +59,33 @@
 
 <script>
   const keyDiv = document.getElementsByClassName('keys')[0].children;
+  let dataKey = null;
+
+  document.body.addEventListener('keyup', event => {
+    // first find out what letter was pushed
+    let letter = event.key.toUpperCase();
+
+    // select the kbd element that has it
+    let kbdNodes = document.querySelectorAll(`kbd`);
+
+    for (let i = 0; i < kbdNodes.length; i++) {
+      if (kbdNodes[i].innerText === letter) {
+        // find the parent element and extract the data key
+        dataKey = kbdNodes[i].parentElement.attributes[0].value;
+      }
+    }
+
+    // select the audio element that has the data key
+    let kbdAudioFile = document.querySelectorAll(`audio[data-key="${dataKey}"]`)[0];
+
+    // play audio file
+    kbdAudioFile.play();
+
+  });
 
   for (let i = 0; i < keyDiv.length; i++) {
     keyDiv[i].addEventListener('click', event => {
+      console.log('TELL ME WHAT THE EVENT IS AND NO ONE WILL GET HURT:', event);
       let key = keyDiv[i].attributes[0].value;
       let audioFile = document.querySelectorAll(`[data-key="${key}"]`)[1];
       audioFile.play();
