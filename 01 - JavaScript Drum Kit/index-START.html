@@ -78,14 +78,25 @@
     // select the audio element that has the data key
     let kbdAudioFile = document.querySelectorAll(`audio[data-key="${dataKey}"]`)[0];
 
+    // select the div file that has the data key and add the playing class
+    let kbdDiv = document.querySelector(`div[data-key="${dataKey}"]`);
+    kbdDiv.classList.add('playing')
+
     // play audio file
+    kbdAudioFile.currentTime = 0;
     kbdAudioFile.play();
 
   });
 
+  document.body.addEventListener('transitionend', event => {
+    if (event.propertyName !== 'transform') {
+      return;
+    }
+    event.target.classList.remove('playing');
+  });
+
   for (let i = 0; i < keyDiv.length; i++) {
     keyDiv[i].addEventListener('click', event => {
-      console.log('TELL ME WHAT THE EVENT IS AND NO ONE WILL GET HURT:', event);
       let key = keyDiv[i].attributes[0].value;
       let audioFile = document.querySelectorAll(`[data-key="${key}"]`)[1];
       audioFile.play();
