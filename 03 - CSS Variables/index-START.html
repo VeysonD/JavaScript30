@@ -21,6 +21,21 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+
+    .hl {
+      color: var(--base);
+    }
+
+    img {
+      background: var(--base);
+      padding: var(--spacing);
+      filter: blur(var(--blur));
+    }
 
     /*
       misc styles, nothing to do with CSS variables
@@ -39,34 +54,24 @@
       margin-bottom: 50px;
     }
 
-    img {
-      border-style: solid;
-      border-color: #ffc600;
-    }
-
     input {
       width:100px;
     }
   </style>
 
   <script>
-    document.body.addEventListener('input', event => {
-      const img = document.querySelector('img');
-      const change = event.target.value;
+    const inputs = document.querySelectorAll('.controls input');
 
-      if (event.target.id === 'blur') {
-        img.style.filter = `blur(${change}px)`;
-      } else if (event.target.id === 'base') {
-        console.log('img style color: ', img.style);
-        console.log('Event color value: ', event.target.value);
-        img.style.borderColor = `${change}`;
-      } else if (event.target.id === 'spacing') {
-        console.log('Event spacing value: ', event.target.value);
-        img.style.borderWidth = `${change}px`;
-        console.log('What is the border width: ', img.style.borderWidth);
-      }
+    function handleUpdate() {
+      const type = this.dataset.sizing || '';
 
-    });
+      document.documentElement.style.setProperty(`--${this.name}`, `${this.value}` + type);
+    }
+
+    inputs.forEach(input => input.addEventListener('input', handleUpdate));
+
+
+
   </script>
 
 </body>
