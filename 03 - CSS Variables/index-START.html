@@ -39,12 +39,34 @@
       margin-bottom: 50px;
     }
 
+    img {
+      border-style: solid;
+      border-color: #ffc600;
+    }
+
     input {
       width:100px;
     }
   </style>
 
   <script>
+    document.body.addEventListener('input', event => {
+      const img = document.querySelector('img');
+      const change = event.target.value;
+
+      if (event.target.id === 'blur') {
+        img.style.filter = `blur(${change}px)`;
+      } else if (event.target.id === 'base') {
+        console.log('img style color: ', img.style);
+        console.log('Event color value: ', event.target.value);
+        img.style.borderColor = `${change}`;
+      } else if (event.target.id === 'spacing') {
+        console.log('Event spacing value: ', event.target.value);
+        img.style.borderWidth = `${change}px`;
+        console.log('What is the border width: ', img.style.borderWidth);
+      }
+
+    });
   </script>
 
 </body>
