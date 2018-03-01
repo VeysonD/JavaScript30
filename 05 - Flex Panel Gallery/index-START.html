@@ -24,6 +24,7 @@
     .panels {
       min-height:100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -41,6 +42,10 @@
       font-size: 20px;
       background-size:cover;
       background-position:center;
+      flex: 1;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
     }
 
 
@@ -51,9 +56,30 @@
     .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
 
     .panel > * {
+      flex: 1 0 auto;
       margin:0;
       width: 100%;
       transition:transform 0.5s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .panel *:first-child {
+      transform: translateY(-100%);
+    }
+
+    .panel.active *:first-child {
+      transform: translateY(0);
+    }
+
+
+    .panel *:last-child {
+      transform: translateY(100%);
+    }
+
+    .panel.active *:last-child {
+      transform: translateY(0);
     }
 
     .panel p {
@@ -67,6 +93,7 @@
     }
 
     .panel.open {
+      flex: 5;
       font-size:40px;
     }
 
@@ -102,7 +129,22 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll('div.panel');
 
+    function togglePanel() {
+      this.classList.toggle('open');
+    }
+
+    function toggleWords(e) {
+
+      if (e.propertyName.includes('flex')) {
+        this.classList.toggle('active');
+      }
+
+    }
+
+    panels.forEach(panel => panel.addEventListener('click', togglePanel));
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleWords))
   </script>
 
 
