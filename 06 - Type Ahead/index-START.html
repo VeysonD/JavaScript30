@@ -15,8 +15,66 @@
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const search = document.querySelector('input.search');
+  const suggestions = document.querySelector('ul.suggestions');
 
+  function getResults(e) {
+    const xhr = new XMLHttpRequest();
+    const value = search.value.toLowerCase();
+
+    // console.log('search: ', search.value);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        const response = JSON.parse(xhr.response);
+
+        const results = response.filter(place => {
+          return place.city.toLowerCase().includes(value) || place.state.toLowerCase().includes(value);
+        });
+        appendToBody(results);
+      }
+    };
+    // console.log('What is the event: ', e.key);
+
+    xhr.open('GET', endpoint);
+    xhr.send();
+  }
+
+  function appendToBody(results) {
+    console.log('what are the filtered results: ', results);
+    suggestions.innerHTML = '';
+
+    results.forEach(place => {
+      const li = document.createElement('li');
+      const span = document.createElement('span');
+
+      span.classList += 'population';
+
+      span.append(`${parseInt(place.population).toLocaleString()}`);
+      li.append(`${place.city}, ${place.state}`);
+      li.append(span);
+      suggestions.append(li);
+    });
+  }
+
+  function addHighlight() {
+    const value = search.value;
+    const cities = document.querySelectorAll('li');
+
+    cities.forEach(city => {
+      let innerHTML = city.innerHTML;
+      const index = innerHTML.indexOf(value);
+
+      if (index >= 0) {
+        innherHTML = innerHTML.substring(0, index) + '<span class="hl">' + innerHTML.substring(index, index + value.length) + '</span>' + innerHTML.substring(index + value.length);
+        city.innerHTML = innerHTML;
+      }
+    });
+
+  }
+
+  search.addEventListener('keyup', getResults);
+  search.addEventListener('keyup', addHighlight);
 </script>
   </body>
 </html>
