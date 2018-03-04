@@ -18,28 +18,57 @@
     }
 
     // Regular
+    console.log('Hello');
 
     // Interpolated
-
+    console.log('Hello I am a %s string', 'silly');
     // Styled
+    console.log('%c I am styled text', 'font-size: 24px; background: red');
 
     // warning!
+    console.warn('This is a warning');
 
     // Error :|
+    console.error('This is an error');
 
     // Info
-
+    console.info('Give me the information');
     // Testing
+    const p = document.querySelector('p');
+    console.assert(p.classList.contains('ouch'), 'That is wrong');
+    console.assert(1 === 1, 'That is wrong');
 
     // clearing
+    // console.clear();
 
     // Viewing DOM Elements
+    console.log('Difference between log and dir of p: ', p);
+    console.dir(p);
 
     // Grouping together
+    dogs.forEach(dog => {
+      console.groupCollapsed(`${dog.name}`)
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.groupEnd(`${dog.name}`);
+    })
 
     // counting
-
+    console.count('Wes');
+    console.count('Wes');
+    console.count('Steve');
+    console.count('Wes');
+    console.count('Wes');
+    console.count('Wes');
+    console.count('Steve');
     // timing
+    console.time('iterate list');
+    dogs.forEach(dog => {
+      console.log('Here is a dog: ', dog);
+    });
+    console.timeEnd('iterate list');
+
+    console.table(dogs);
 
   </script>
 </body>
