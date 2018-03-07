@@ -99,6 +99,67 @@
   </div>
 
 <script>
+  const inbox = document.querySelector('div.inbox');
+  const queue = [];
+  let hold = false;
+
+  function handleCheck(start, final) {
+    const checkboxes = document.querySelectorAll('input');
+    console.log('handle check start: ', start);
+    console.log('handle check final: ', final);
+
+    if (!final) {
+      for (let i = start; i < checkboxes.length; i++) {
+        checkboxes[i].checked = true;
+      }
+    } else {
+      let left = Math.min(start, final);
+      let right = Math.max(start, final);
+      for (let i = left; i < right + 1; i++) {
+        checkboxes[i].checked = true;
+      }
+    }
+  }
+
+  function handleShift(e) {
+    const inputS = e.target.parentElement;
+    const indexS = [...inputS.parentElement.children].indexOf(inputS);
+    const checked = e.target.checked;
+    console.log('What is e: ', e);
+
+    if (hold === true && queue.length === 0 && checked === true) {
+      queue.push(indexS);
+      handleCheck(indexS);
+    } else if (hold === true && queue.length > 0 && checked === true) {
+      const indexF = queue[queue.length - 1];
+      handleCheck(indexS, indexF);
+    } else if (checked === true) {
+      queue.push(indexS);
+    } else {
+      queue.pop();
+    }
+
+  }
+
+  function holdShift(e) {
+    if (e.key === "Shift") {
+      console.log('hold: ', e);
+      hold = true;
+    }
+  }
+
+  function releaseShift(e) {
+    if (e.key === "Shift") {
+      console.log('release: ', e);
+      hold = false;
+    }
+  }
+
+  document.body.addEventListener('keydown', holdShift);
+  document.body.addEventListener('keyup', releaseShift);
+  inbox.addEventListener('change', handleShift);
+
+
 </script>
 </body>
 </html>
