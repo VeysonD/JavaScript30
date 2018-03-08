@@ -14,18 +14,12 @@ function handleBar() {
 
 function handlePlay() {
   const method = video.paused ? 'play' : 'pause';
-  handleToggle(method);
   video[method]();
 }
 
-function handleToggle(method) {
-  if (method === 'pause') {
-    toggle.textContent = '►';
-  } else if (method === 'play') {
-    toggle.textContent = '❚ ❚';
-  } else {
-    console.error('Handle toggle error');
-  }
+function handleToggle() {
+  const icon = this.paused ? '►' : '❚ ❚';
+  toggle.textContent = icon;
 }
 
 function handleRange() {
@@ -46,6 +40,8 @@ function handleSkip() {
 play.addEventListener('click', handlePlay);
 video.addEventListener('click', handlePlay);
 video.addEventListener('timeupdate', handleBar);
+video.addEventListener('play', handleToggle);
+video.addEventListener('pause', handleToggle);
 
 progress.addEventListener('click', handleScrub);
 progress.addEventListener('mousemove', () => {
