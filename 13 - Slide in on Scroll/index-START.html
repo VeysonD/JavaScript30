@@ -58,6 +58,37 @@
       };
     }
 
+    const images = document.querySelectorAll('.slide-in');
+    const debounceShow = debounce(handleShow);
+    console.log(images);
+
+    // use debounce with show function
+    function handleShow(e) {
+
+      images.forEach(image => {
+        // halfway through image
+        const slideInAt = (window.scrollY + window.innerHeight) - (image.height / 2);
+        // bottom of the image
+        const imageBottom = image.offsetTop + image.height;
+        console.log('Slide in at: ', slideInAt);
+        console.log('Image offset top: ', image.offsetTop);
+        console.log('Image bottom: ', imageBottom);
+
+        const isHalfShown = slideInAt > image.offsetTop;
+        const isNotScrollPast = window.scrollY < imageBottom;
+
+        if (isHalfShown && isNotScrollPast) {
+          image.classList.add('active');
+        } else {
+          image.classList.remove('active');
+        }
+
+      });
+    }
+
+
+
+    window.addEventListener('scroll', debounceShow);
   </script>
 
   <style>
