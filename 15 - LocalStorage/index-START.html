@@ -30,9 +30,55 @@
   const itemsList = document.querySelector('.plates');
   const items = [];
 
+  console.log('local storage:', localStorage);
+
+  function loadStorage() {
+    const food = localStorage.getItem('food');
+
+    if (food) {
+      items.push(...food.split(','));
+      addToPlate();
+    }
+
+  }
+
+  function addToPlateitem() {
+    const html = items.map((food, index) => {
+      return `
+        <li>
+          <input type="checkbox" data-index="${index}" id="item-${index}"></input>
+          <label for="item-${index}">${food}</label
+        </li>
+      `;
+    }).join('');
+    itemsList.innerHTML = html;
+  }
+
+  function addStorage(e) {
+    e.preventDefault();
+    const item = document.querySelector('input[name="item"]').value;
+
+    if (item.length !== 0) {
+      items.push(item);
+      localStorage.setItem('food', items);
+      addToPlate(item);
+      console.log('submit: ', localStorage.getItem('food'));
+    }
+  }
+
+  function resetStorage() {
+    localStorage.removeItem('food');
+  }
+
+  addItems.addEventListener('submit', addStorage);
+  document.addEventListener('storage', addToPlate);
+
+  loadStorage();
+
+
+
 </script>
 
 
 </body>
 </html>
-
