@@ -182,6 +182,35 @@
     </li>
   </ul>
 <script>
+  const videoLi = document.querySelectorAll('li');
+  let totalSeconds = 0;
+  let totalTime = 0;
+
+  function toClock(time) {
+    let minutes = (Math.floor(time / 60)).toString();
+    let seconds = (time % 60).toString();
+
+    if (seconds.length === 1) {
+      seconds = '0' + seconds;
+    }
+    return `${minutes}:${seconds}`
+  }
+
+  function toSeconds(time) {
+    let total = 0;
+    const clock = time.split(':');
+
+    total += parseInt(clock[0]) * 60;
+    total += parseInt(clock[1]);
+    return total;
+  }
+
+  totalSeconds = Array.from(videoLi).reduce((total, video) => {
+    return total + toSeconds(video.dataset.time);
+  }, 0);
+
+  console.log("clocktime: ", toClock(totalSeconds));
+
 </script>
 </body>
 </html>
