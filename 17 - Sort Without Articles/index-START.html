@@ -47,9 +47,8 @@
   const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 
   const articles = ['A', 'The', 'An'];
-
   const bandList = document.querySelector('#bands');
-  console.log(bands[9].includes('Oh'));
+
   const bandFilter = bands.sort((a, b) => {
     const aArr = a.split(' ');
     const bArr = b.split(' ');
@@ -68,7 +67,6 @@
     } else {
       return -1;
     }
-
   });
 
   const html = bandFilter.map(band => {
@@ -78,10 +76,6 @@
   }).join('');
 
   bandList.innerHTML = html;
-
-  console.log('band filter: ', html);
-
-
 </script>
 
 </body>
