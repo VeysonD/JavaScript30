@@ -182,34 +182,52 @@
     </li>
   </ul>
 <script>
-  const videoLi = document.querySelectorAll('li');
-  let totalSeconds = 0;
-  let totalTime = 0;
+  // const videoLi = document.querySelectorAll('li');
+  // let totalSeconds = 0;
+  // let totalTime = 0;
+  //
+  // function toClock(time) {
+  //   let minutes = (Math.floor(time / 60)).toString();
+  //   let seconds = (time % 60).toString();
+  //
+  //   if (seconds.length === 1) {
+  //     seconds = '0' + seconds;
+  //   }
+  //   return `${minutes}:${seconds}`
+  // }
+  //
+  // function toSeconds(time) {
+  //   let total = 0;
+  //   const clock = time.split(':');
+  //
+  //   total += parseInt(clock[0]) * 60;
+  //   total += parseInt(clock[1]);
+  //   return total;
+  // }
+  //
+  // totalSeconds = Array.from(videoLi).reduce((total, video) => {
+  //   return total + toSeconds(video.dataset.time);
+  // }, 0);
+  //
+  // console.log("clocktime: ", toClock(totalSeconds));
 
-  function toClock(time) {
-    let minutes = (Math.floor(time / 60)).toString();
-    let seconds = (time % 60).toString();
+  const timeNodes = [...document.querySelectorAll('[data-time]')];
+  const seconds = timeNodes
+    .map(node => node.dataset.time)
+    .map(timeCode =>{
+      const [mins, secs] = timeCode.split(':').map(parseFloat);
+      return (mins * 60) + secs;
+    })
+    .reduce((total, vidSeconds) => total + vidSeconds);
 
-    if (seconds.length === 1) {
-      seconds = '0' + seconds;
-    }
-    return `${minutes}:${seconds}`
-  }
+  let secondsLeft = seconds;
+  const hours = Math.floor(secondsLeft / 3600);
+  secondsLeft = secondsLeft % 3600;
 
-  function toSeconds(time) {
-    let total = 0;
-    const clock = time.split(':');
+  const mins = Math.floor(secondsLeft / 60);
+  secondsLeft %= 60;
 
-    total += parseInt(clock[0]) * 60;
-    total += parseInt(clock[1]);
-    return total;
-  }
-
-  totalSeconds = Array.from(videoLi).reduce((total, video) => {
-    return total + toSeconds(video.dataset.time);
-  }, 0);
-
-  console.log("clocktime: ", toClock(totalSeconds));
+  console.log('Seconds: ', hours, mins, secondsLeft);
 
 </script>
 </body>
