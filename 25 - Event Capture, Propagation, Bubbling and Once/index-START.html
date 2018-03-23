@@ -37,9 +37,21 @@
   }
 </style>
 
-<button></button>
+<button>Click me</button>
 <script>
+  const divs = document.querySelectorAll('div');
 
+  function logText(e) {
+    console.log(this);
+    // e.stopPropagation();
+  }
+
+  divs.forEach(div => div.addEventListener('click', logText, {
+    capture: false,
+    once: true
+  }));
+  // 'once' is the same as div.removeEventListener
+    // good for store checkouts
 </script>
 </body>
 </html>
